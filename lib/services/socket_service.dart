@@ -19,6 +19,7 @@ class SocketService with ChangeNotifier {
 
   Socket get socket => _socket;
   ServerStatus get serverStatus => _serverStatus;
+  Function get emit => _socket.emit;
 
   void _initConfig() {
     
