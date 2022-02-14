@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final socketService = Provider.of<SocketService>(context);
     final isConnected = socketService.serverStatus == ServerStatus.online;
+    final bandsMap = { for (var band in bands) band.name : band.votes.toDouble() }; 
 
     return Scaffold(
       
@@ -64,16 +65,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
       body: Column(
         children: [
-          SizedBox(
-            height: 275,
-            child: PieChart(
-              dataMap: { for (var band in bands) band.name : band.votes.toDouble() },
-              chartValuesOptions: const ChartValuesOptions(
-                decimalPlaces: 0,
-                showChartValuesInPercentage: true
+          if (bandsMap.isNotEmpty) 
+            SizedBox(
+              height: 275,
+              child: PieChart(
+                dataMap: bandsMap,
+                chartValuesOptions: const ChartValuesOptions(
+                  decimalPlaces: 0,
+                  showChartValuesInPercentage: true
+                ),
               ),
             ),
-          ),
           
           Expanded(
             child: ListView.builder(
